@@ -3,7 +3,6 @@ import dotenv from 'dotenv';
 
 dotenv.config({ path: `${__dirname}/../.env` });
 
-
 class Mongo {
   client: MongoClient;
   db: Db;
@@ -13,7 +12,7 @@ class Mongo {
   async main() {
     await this.client.connect();
     console.log('Connected to DataBase');
-    this.db = this.client.db();
+    this.db = this.client.db('music');
   }
 }
 export default new Mongo();
