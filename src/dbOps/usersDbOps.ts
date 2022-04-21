@@ -1,7 +1,7 @@
-import { collections } from 'src/server';
+import { collections } from '../server';
 import { Collection, ObjectId, Db } from 'mongodb';
 import bcrypt from 'bcrypt';
-import { UserInfo, Playlist, Song } from 'src/types/commonTypes';
+import { UserInfo } from '../types/commonTypes';
 
 const saltRounds = 10;
 
@@ -26,54 +26,5 @@ export const createUser = async (
     last_recommended_at: -1,
     created_at: new Date(),
   });
-  return result;
-};
-
-export const deletePlaylist = async (
-  playlistCollection: Collection,
-  playlistId: string
-) => {
-  const result = await playlistCollection.deleteOne({
-    _id: new ObjectId(playlistId),
-  });
-  return result;
-};
-
-export const createPlaylist = async (
-  playlistCollection: Collection,
-  playlistInfo: Playlist,
-  userId: string
-) => {
-  // check if the user has the same playlist;
-  const user = new ObjectId(userId);
-  const { name } = playlistInfo;
-  const check = await playlistCollection.findOne({ userId: user, name });
-  if (check) throw new Error('playlist already exists');
-  // create
-  const result = await playlistCollection.insertOne({
-    name,
-    userId: user,
-    created_at: new Date(),
-  });
-  return result;
-};
-
-export const addSongs = async (songsCollection: Collection, songs: any[]) => {
-  songs = songs.map((v) => {
-    return {
-      ...v,
-      created_at: new Date(),
-    };
-  });
-  const result = await songsCollection.insertMany(songs);
-  return result;
-};
-
-export const deleteSongs = async (
-  songsCollection: Collection,
-  songs: string[] | ObjectId[]
-) => {
-  songs = songs.map((v) => new ObjectId(v));
-  const result = await songsCollection.deleteMany({ _id: { $in: songs } });
   return result;
 };

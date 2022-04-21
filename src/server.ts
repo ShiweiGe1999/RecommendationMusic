@@ -1,15 +1,20 @@
 import express from 'express';
 import Mongo from './db';
-import { Collection } from 'mongodb';
-import { validateAccount } from './controllers/validationController';
 import { Collections } from './types/commonTypes';
+import { login, isUserExisting } from './controllers/userController';
+import { validateAccount } from './controllers/validationController';
+import passport from 'passport';
+import configPassport from './auth';
 const app = express();
 const port = process.env.PORT || 5000;
 export const collections: Collections = {};
 
-app.get('/', validateAccount, (_, res) => {
-  res.status(200).send('Hello From world');
-});
+app.use(express.json());
+app.use(express.urlencoded());
+app.use(passport.initialize());
+configPassport(passport);
+
+app.post('/api/login', validateAccount, isUserExisting, login);
 
 const boot = async () => {
   await Mongo.main();

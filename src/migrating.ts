@@ -1,6 +1,8 @@
 import { getTestSongs } from './search';
 import { Collections } from './types/commonTypes';
-import { createUser, createPlaylist, addSongs } from './dbOps/usersDbOps';
+import { createUser } from './dbOps/usersDbOps';
+import { createPlaylist } from './dbOps/playlistDbOps';
+import { addSongs } from './dbOps/songsDbOps';
 import Mongo from './db';
 const testSongs = ['City of God', 'Hurricane', 'first class'];
 export const collections: any = {};
