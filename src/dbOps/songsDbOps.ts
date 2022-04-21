@@ -1,9 +1,14 @@
 import { Collection, ObjectId } from 'mongodb';
 import { Playlist } from '../types/commonTypes';
-export const addSongs = async (songsCollection: Collection, songs: any[]) => {
+export const addSongs = async (
+  songsCollection: Collection,
+  songs: any[],
+  playlistId: string | ObjectId
+) => {
   songs = songs.map((v) => {
     return {
       ...v,
+      playlistId: new ObjectId(playlistId),
       created_at: new Date(),
     };
   });
@@ -22,16 +27,12 @@ export const deleteSongs = async (
 
 export const getPlaylistSongs = async (
   songsCollection: Collection,
-  playlistCollection: Collection,
-  userId: string,
-  playlistId: string
+  playlistId: string | ObjectId
 ) => {
-  const playlist = await playlistCollection.findOne({
-    _id: new ObjectId(playlistId),
-  });
   // find all songs
   const songs = await songsCollection
-    .find({ playlistId: playlist._id })
-    .sort({ created_at: 1 });
+    .find({ playlistId: new ObjectId(playlistId) })
+    .sort({ created_at: 1 })
+    .toArray();
   return songs;
 };

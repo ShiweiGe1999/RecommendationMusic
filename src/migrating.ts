@@ -23,21 +23,14 @@ const migrating = async (collections: any) => {
   const result2 = await createPlaylist(
     collections.playlist,
     { name: 'likes' },
-    result.insertedId.toString()
+    result.insertedId,
+    true
   );
   /**
    * add test songs
    */
   const songs = await getTestSongs(testSongs);
-  const finalSongs = songs.map((v) => {
-    return {
-      title: v.title,
-      videoId: v.id,
-      thumbnail: v.thumbnail,
-      playlistId: result2.insertedId,
-    };
-  });
-  const result3 = await addSongs(collections.songs, finalSongs);
+  const result3 = await addSongs(collections.songs, songs, result2.insertedId);
   return;
 };
 const boot = async () => {

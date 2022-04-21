@@ -5,6 +5,9 @@ import { login, isUserExisting } from './controllers/userController';
 import { validateAccount } from './controllers/validationController';
 import passport from 'passport';
 import configPassport from './auth';
+import { authenticate } from './controllers/userController';
+import securedRouter from './securedRouter';
+
 const app = express();
 const port = process.env.PORT || 5000;
 export const collections: Collections = {};
@@ -14,6 +17,7 @@ app.use(express.urlencoded());
 app.use(passport.initialize());
 configPassport(passport);
 
+app.use('/api/user', authenticate, securedRouter);
 app.post('/api/login', validateAccount, isUserExisting, login);
 
 const boot = async () => {

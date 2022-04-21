@@ -35,7 +35,8 @@ export const register = async (req: Request, res: Response) => {
     await createPlaylist(
       collections.playlist,
       { name: 'likes' },
-      result.insertedId.toString()
+      result.insertedId,
+      true
     );
     return res.json(result);
   } catch (err) {
@@ -50,7 +51,7 @@ export const login = async (req: Request, res: Response) => {
     if (!user) return res.status(404).json({ message: 'user not found' });
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(401).json({ message: 'Unauthorized' });
-    const token = jwt.sign(user, process.env.JWT_SECRET);
+    const token = jwt.sign(user, process.env.JWT_SECRET, { expiresIn: '7d' });
     return res.json({ token: `Bearer ${token}` });
   } catch (err) {
     return res.status(400).json({ message: 'login malfunction' });

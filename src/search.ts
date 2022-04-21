@@ -15,8 +15,9 @@ export async function search(name: string) {
   if (!items || items.length <= 0) return null;
   const finalResult = {
     title: items[0].title,
-    id: items[0].id,
+    videoId: items[0].id,
     thumbnail: items[0]?.bestThumbnail?.url,
+    duration: items[0]?.duration,
   };
   return finalResult;
 }
@@ -28,5 +29,4 @@ export async function getTestSongs(songs: string[]) {
   }
   return result;
 }
-
 // ytdl('HmP_wGYw1_g').pipe(fs.createWriteStream('Link.mp4'));

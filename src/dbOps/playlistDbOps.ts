@@ -4,10 +4,13 @@ import { Playlist } from '../types/commonTypes';
 
 export const deletePlaylist = async (
   playlistCollection: Collection,
-  playlistId: string
+  playlistId: string | ObjectId,
+  userId: string | ObjectId
 ) => {
-  const result = await playlistCollection.deleteOne({
+  const result = await playlistCollection.findOneAndDelete({
     _id: new ObjectId(playlistId),
+    userId,
+    isDefault: false,
   });
   return result;
 };
@@ -15,7 +18,8 @@ export const deletePlaylist = async (
 export const createPlaylist = async (
   playlistCollection: Collection,
   playlistInfo: Playlist,
-  userId: string
+  userId: string | ObjectId,
+  isDefault: boolean = false
 ) => {
   // check if the user has the same playlist;
   const user = new ObjectId(userId);
@@ -27,17 +31,19 @@ export const createPlaylist = async (
     name,
     userId: user,
     created_at: new Date(),
+    isDefault,
   });
   return result;
 };
 
 export const getPlaylists = async (
   playlistCollection: Collection,
-  userId: string | ObjectId
+  userId: ObjectId | string
 ) => {
   userId = new ObjectId(userId);
   const playlists = await playlistCollection
     .find({ userId })
-    .sort({ created_at: 1 });
+    .sort({ created_at: 1 })
+    .toArray();
   return playlists;
 };
