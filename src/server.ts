@@ -13,7 +13,7 @@ const port = process.env.PORT || 5000;
 export const collections: Collections = {};
 
 app.use(express.json());
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: false }));
 app.use(passport.initialize());
 configPassport(passport);
 
