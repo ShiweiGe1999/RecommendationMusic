@@ -1,6 +1,8 @@
 import { getTestSongs } from './search';
 import { Collections } from './types/commonTypes';
-import { createUser, createPlaylist, addSongs } from './dbOps/usersDbOps';
+import { createUser } from './dbOps/usersDbOps';
+import { createPlaylist } from './dbOps/playlistDbOps';
+import { addSongs } from './dbOps/songsDbOps';
 import Mongo from './db';
 const testSongs = ['City of God', 'Hurricane', 'first class'];
 export const collections: any = {};
@@ -21,21 +23,14 @@ const migrating = async (collections: any) => {
   const result2 = await createPlaylist(
     collections.playlist,
     { name: 'likes' },
-    result.insertedId.toString()
+    result.insertedId,
+    true
   );
   /**
    * add test songs
    */
   const songs = await getTestSongs(testSongs);
-  const finalSongs = songs.map((v) => {
-    return {
-      title: v.title,
-      videoId: v.id,
-      thumbnail: v.thumbnail,
-      playlistId: result2.insertedId,
-    };
-  });
-  const result3 = await addSongs(collections.songs, finalSongs);
+  const result3 = await addSongs(collections.songs, songs, result2.insertedId);
   return;
 };
 const boot = async () => {
