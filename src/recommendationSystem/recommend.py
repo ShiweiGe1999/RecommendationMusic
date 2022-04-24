@@ -9,10 +9,12 @@ from sklearn.preprocessing import StandardScaler
 from scipy.spatial import distance
 import copy
 import warnings
+from flask import Flask, render_template, redirect, url_for,request
+from flask import make_response
+from flask_cors import CORS
+import json
 warnings.filterwarnings("ignore")
-
 data=pd.read_csv('./genres_v2.csv')
-
 data.drop('Unnamed: 0',axis=1,inplace=True)
 data=data.dropna(subset=['song_name'])
 df=data[data.columns[:11]]
@@ -62,9 +64,33 @@ def make_matrix(data,song,number):
         p.append([distance.euclidean(x,i),count])
         count+=1
     p.sort()
+    res = []
     for i in range(1,number+1):
         print(song_names[p[i][1]])
+        res.append(song_names[p[i][1]])
+    return res
         
-a=input('Please enter The name of the song :')
-b=int(input('Please enter the number of recommendations you want: '))
-make_matrix(df,a,b)
+# a=input('Please enter The name of the song :')
+# b=int(input('Please enter the number of recommendations you want: '))
+# make_matrix(df,a,b)
+
+
+'''
+Flask Section
+'''
+
+app = Flask(__name__)
+CORS(app)
+
+@app.route("/recommend", methods=['POST'])
+def recommend():
+    song = request.form['song']
+    recommended = make_matrix(df,song,5)
+    resp = make_response(json.dumps(recommended))
+    resp.headers['Content-Type'] = "application/json"
+    return resp
+
+if __name__ == "__main__":
+    app.run(port=5001)
+    
+    

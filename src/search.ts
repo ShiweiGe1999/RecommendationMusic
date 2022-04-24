@@ -1,6 +1,7 @@
 import ytsr, { Result, Options, Item } from 'ytsr';
 import ytdl from 'ytdl-core';
 import fs from 'fs';
+import request from 'request-promise';
 
 export async function search(name: string) {
   // const results = await ytsr(name, { limit: 1 });
@@ -29,4 +30,18 @@ export async function getTestSongs(songs: string[]) {
   }
   return result;
 }
+
+export async function getRecommendedSongs(song: string) {
+  const songs = await request.post('http://127.0.0.1:5001/recommend', {
+    form: {
+      song,
+    },
+  });
+  const parsedSongs = JSON.parse(songs);
+  for (let i = 0; i < parsedSongs.length; i++) {
+    parsedSongs[i] = await search(parsedSongs[i]);
+  }
+  return parsedSongs;
+}
+
 // ytdl('HmP_wGYw1_g').pipe(fs.createWriteStream('Link.mp4'));

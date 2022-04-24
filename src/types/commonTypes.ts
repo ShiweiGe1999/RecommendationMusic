@@ -4,6 +4,7 @@ export interface UserInfo {
   email: string;
   password: string;
   [keys: string]: any;
+  last_recommended_at?: Date | any;
 }
 
 export interface Playlist {
