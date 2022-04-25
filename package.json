@@ -10,7 +10,7 @@
     "start": "ts-node ./src/server.ts",
     "start:prod": "concurrently \"node ./dist/server.js\" \"python ./src/recommendationSystem/recommend.py\" ",
     "tsc": "./node_modules/typescript/bin/tsc",
-    "build": "npm install && npm run tsc && cd client && npm install && npm run build",
+    "build": "npm install --production=false && npm run tsc && cd client && npm install --production=false && npm run build",
     "dev": "concurrently \"nodemon\" \"python ./src/recommendationSystem/recommend.py\" ",
     "migrate": "ts-node ./src/migrating.ts"
   },
