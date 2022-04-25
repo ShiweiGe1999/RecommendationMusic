@@ -6,7 +6,7 @@
   "scripts": {
     "start": "ts-node ./src/server.ts",
     "start:prod": "concurrently \"node ./dist/server.js\" \"python ./src/recommendationSystem/recommend.py\" ",
-    "build": "npm install && npx tsc && cd client && npm install && npm run build",
+    "build": "npm install && tsc && cd client && npm install && npm run build",
     "dev": "concurrently \"nodemon\" \"python ./src/recommendationSystem/recommend.py\" ",
     "migrate": "ts-node ./src/migrating.ts"
   },
