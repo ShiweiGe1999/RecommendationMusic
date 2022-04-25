@@ -19,6 +19,7 @@ export async function search(name: string) {
     videoId: items[0].id,
     thumbnail: items[0]?.bestThumbnail?.url,
     duration: items[0]?.duration,
+    tag: ['unknown'],
   };
   return finalResult;
 }

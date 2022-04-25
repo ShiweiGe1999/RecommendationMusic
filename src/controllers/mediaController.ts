@@ -151,6 +151,16 @@ export const checkRecommendation = async (
   }
 };
 
+export const apiRecommend = async (req: Request, res: Response) => {
+  try {
+    const { song } = req.body;
+    const songs = await getRecommendedSongs(song);
+    return res.json(songs);
+  } catch (err) {
+    return res.status(400).json({ message: 'bad recommend' });
+  }
+};
+
 export const getRecommendation = async (req: Request, res: Response) => {
   try {
     const { _id } = req.user as any;
