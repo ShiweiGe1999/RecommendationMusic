@@ -30,14 +30,16 @@ export interface Song {
 const { Header, Content, Footer } = Layout;
 const { Search } = Input;
 const { Paragraph } = Typography;
+
+const url =
+  process.env.NODE_ENV === 'development' ? 'http://localhost:5000' : '';
 const tracks = [
   {
-    url: '',
-    title: '',
-    tags: [],
+    url: url + '/api/stream/4XMfz9n95HM',
+    title: 'PnB Rock - Plans [Official Audio]',
+    tags: ['unknown'],
   },
 ];
-const url = process.env.URL || 'http://localhost:5000';
 function App() {
   const [isSearch, setIsSearching] = React.useState(false);
   const [currentTracks, setCurrentTracks] = React.useState(tracks);

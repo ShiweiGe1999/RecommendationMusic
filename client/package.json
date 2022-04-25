@@ -13,6 +13,7 @@
     "@types/react-dom": "^18.0.2",
     "antd": "^4.20.0",
     "axios": "^0.26.1",
+    "dotenv": "^16.0.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-scripts": "5.0.1",
