@@ -3,9 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": "16.x"
+  },
   "scripts": {
     "start": "ts-node ./src/server.ts",
     "start:prod": "concurrently \"node ./dist/server.js\" \"python ./src/recommendationSystem/recommend.py\" ",
+    "tsc": "./node_modules/typescript/bin/tsc",
     "build": "npm install && tsc && cd client && npm install && npm run build",
     "dev": "concurrently \"nodemon\" \"python ./src/recommendationSystem/recommend.py\" ",
     "migrate": "ts-node ./src/migrating.ts"
