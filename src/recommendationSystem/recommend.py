@@ -1,13 +1,7 @@
 import pandas as pd
 import numpy as np
-import seaborn as sns
-import plotly.express as px
-import plotly.graph_objects as go
-import matplotlib.pyplot as plt
-import plotly
 from sklearn.preprocessing import StandardScaler
 from scipy.spatial import distance
-import copy
 import warnings
 from flask import Flask, render_template, redirect, url_for,request
 from flask import make_response

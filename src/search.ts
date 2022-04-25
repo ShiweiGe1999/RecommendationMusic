@@ -33,7 +33,7 @@ export async function getTestSongs(songs: string[]) {
 }
 
 export async function getRecommendedSongs(song: string) {
-  const songs = await request.post('http://127.0.0.1:5001/recommend', {
+  const songs = await request.post('http://localhost:5001/recommend', {
     form: {
       song,
     },
