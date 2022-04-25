@@ -19,7 +19,7 @@ import { checkShouldUpdate } from './dbOps/usersDbOps';
 const app = express();
 const port = process.env.PORT || 5000;
 export const collections: Collections = {};
-
+app.use(express.static(`${__dirname}/../client/build`));
 app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
@@ -30,6 +30,10 @@ app.post('/api/login', validateAccount, isUserExisting, login);
 app.post('/api/register', validateAccount, isUserExisting, register);
 app.get('/api/stream/:videoId', getAudioStream);
 app.get('/api/getinfo', getInfo);
+app.get('*', (req, res) => {
+  res.sendFile(`${__dirname}/../client/build/index.html`);
+});
+
 app.post('/api/recommend', apiRecommend);
 const boot = async () => {
   await Mongo.main();

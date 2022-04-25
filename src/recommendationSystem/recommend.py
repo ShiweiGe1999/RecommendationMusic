@@ -12,9 +12,10 @@ import warnings
 from flask import Flask, render_template, redirect, url_for,request
 from flask import make_response
 from flask_cors import CORS
+import os
 import json
 warnings.filterwarnings("ignore")
-data=pd.read_csv('./genres_v2.csv')
+data=pd.read_csv(os.path.join(os.path.dirname(__file__), "./genres_v2.csv"))
 data.drop('Unnamed: 0',axis=1,inplace=True)
 data=data.dropna(subset=['song_name'])
 df=data[data.columns[:11]]
